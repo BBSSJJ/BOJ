@@ -1,3 +1,5 @@
+// https://www.acmicpc.net/problem/2504
+// while, if같은 조건문에서 stack.top() 쓰는거 조심하자. 비어있을 경우 runtime error 발생!!!!!!!!!!
 #include <iostream>
 #include <stack>
 #include <string>
@@ -15,30 +17,26 @@ int main(){
         tmp = 0;
         if(str[i] == '[' || str[i] == '('){
             s.push(str[i]);
-            cout << "size of s: " << s.size() << endl;
         }
         else{
-            
             if(str[i] == ')'){
-                if(s.top() == 'n'){
+                if(s.size() != 0 && s.top() == 'n'){
                     while(s.top() == 'n'){
                         s.pop();
                         tmp += s_num.top();
                         s_num.pop();
-                        cout << "size of s: " << s.size() << endl;
-                        cout << "size of s_num: " << s_num.size() << endl;
+                        if(s.size() == 0)
+                            break;
                     }
                 }
                 else{
                     tmp = 1;
                 }
                 
-                if(s.top() == '('){
+                if(s.size() != 0 && s.top() == '('){
                     s.pop();
                     s.push('n');
                     s_num.push(tmp * 2);
-                    cout << "size of s: " << s.size() << endl;
-                    cout << "size of s_num: " << s_num.size() << endl;
                 }
                 else{
                     wrong = 1;
@@ -48,25 +46,23 @@ int main(){
 
 
             else{
-                if(s.top() == 'n'){
+                if(s.size() != 0 && s.top() == 'n'){
                     while(s.top() == 'n'){
                         s.pop();
                         tmp += s_num.top();
                         s_num.pop();
-                        cout << "size of s: " << s.size() << endl;
-                        cout << "size of s_num: " << s_num.size() << endl;
+                        if(s.size() == 0)
+                            break;
                     }
                 }
                 else{
                     tmp = 1;
                 }
                 
-                if(s.top() == '['){
+                if(s.size() != 0 && s.top() == '['){
                     s.pop();
                     s.push('n');
                     s_num.push(tmp * 3);
-                    cout << "size of s: " << s.size() << endl;
-                    cout << "size of s_num: " << s_num.size() << endl;
                 }
                 else{
                     wrong = 1;
@@ -79,12 +75,18 @@ int main(){
         cout << 0 << endl;
         return 0;
     }
-    else{
-    while(s_num.size() != 0){
+        while(s.top() == 'n'){
+            s.pop();
             sum += s_num.top();
             s_num.pop();
-            cout << "size of s_num: " << s_num.size() << endl;
+            if(s.size() == 0){
+                break;
+            }
+        }
+        if(s.size() != 0 || s_num.size() != 0){
+            cout << 0 << endl;
+            return 0;
         }
     cout << sum << endl;
-    }
+    
 }
