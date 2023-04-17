@@ -41,6 +41,5 @@ int main() {
             }
         }
     }
-    cout << picture_count << endl;
-    cout << area << endl;
+    cout << picture_count << "\n" << max_area << endl;
 }
