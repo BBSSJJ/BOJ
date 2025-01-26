@@ -1,48 +1,54 @@
+#include <cmath>
 #include <iostream>
 #include <vector>
 
 using namespace std;
+int N, M, u;
+vector<int> parent;
+
+int find_parent(int a) {
+    if (parent[a] == a) return a;
+
+    return parent[a] = find_parent(parent[a]);
+}
+
+void _union(int a, int b) {
+    int aParent = find_parent(a);
+    int bParent = find_parent(b);
+    if (aParent > bParent) {
+        parent[aParent] = bParent;
+    } else {
+        parent[bParent] = aParent;
+    }
+}
 
 int main() {
-    int N, M, u;
     cin >> N >> M;
-    int graph[201][201];
+    parent = vector<int>(N + 1, 0);
+
+    for (int i = 1; i <= N; i++) {
+        parent[i] = i;
+    }
 
     for (int i = 1; i <= N; i++) {
         for (int j = 1; j <= N; j++) {
             cin >> u;
-            if (u != 1) {
-                graph[i][j] = 1000000000;
-            } else {
-                graph[i][j] = u;
+            if (u == 1) {
+                _union(i, j);
             }
         }
     }
 
-    vector<int> travel_order;
-
+    int root = 0;
     for (int i = 0; i < M; i++) {
         cin >> u;
-        travel_order.push_back(u);
-    }
-
-    for (int i = 1; i <= N; i++) {
-        for (int j = 1; j <= N; j++) {
-            for (int k = 1; k <= N; k++) {
-                graph[j][k] = min(graph[j][i] + graph[i][k], graph[j][k]);
-            }
-        }
-    }
-    for (int i = 0; i < M - 1; i++) {
-        int cur = travel_order[i];
-        int next = travel_order[i + 1];
-        if (cur == next) {
-            continue;
-        }
-        if (graph[cur][next] == 1000000000) {
-            cout << "NO" << endl;
+        if (i == 0) {
+            root = find_parent(u);
+        } else if (find_parent(u) != root) {
+            cout << "NO";
             return 0;
         }
     }
-    cout << "YES" << endl;
+
+    cout << "YES";
 }
