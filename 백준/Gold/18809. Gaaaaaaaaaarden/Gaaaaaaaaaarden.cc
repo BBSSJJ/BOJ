@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <queue>
 #include <vector>
@@ -65,50 +66,6 @@ int simul(vector<int>& temp) {
     return flowerCount;
 }
 
-void comb2(int idx, int gr, vector<int>& order) {
-    if (gr == GR) {
-        vector<int> tmp = order;
-        templates.push_back(tmp);
-        return;
-    }
-    if (idx == lands.size()) {
-        return;
-    }
-
-    for (int i = idx; i < lands.size(); i++) {
-        order[i] = 1;
-        comb2(i + 1, gr + 1, order);
-        order[i] = 0;
-    }
-}
-
-void comb1(int idx, int g, vector<int>& selected) {
-    if (g == G) {
-        for (int t = 0; t < templates.size(); t++) {
-            vector<int> temp = templates[t];
-
-            int c = 0;
-            for (int i = 0; i < lands.size(); i++) {
-                if (temp[i] == 1) {
-                    temp[i] = selected[c];
-                    c++;
-                }
-            }
-            answer = max(simul(temp), answer);
-        }
-        return;
-    }
-    if (idx == GR) {
-        return;
-    }
-
-    for (int i = idx; i < GR; i++) {
-        selected[i] = 'G';
-        comb1(i + 1, g + 1, selected);
-        selected[i] = 'R';
-    }
-}
-
 int main() {
     cin >> N >> M >> G >> R;
     GR = G + R;
@@ -120,11 +77,19 @@ int main() {
         }
     }
 
-    vector<int> selected(GR, 'R');
-    vector<int> order(lands.size(), 0);
-    comb2(0, 0, order);
-
-    comb1(0, 0, selected);
+    vector<int> tmp;
+    for (int i = 0; i < lands.size() - G - R; i++) {
+        tmp.push_back(0);
+    }
+    for (int i = 0; i < G; i++) {
+        tmp.push_back('G');
+    }
+    for (int i = 0; i < R; i++) {
+        tmp.push_back('R');
+    }
+    do {
+        answer = max(answer, simul(tmp));
+    } while (next_permutation(tmp.begin(), tmp.end()));
 
     cout << answer;
 }
