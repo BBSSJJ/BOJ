@@ -26,14 +26,14 @@ int main() {
         dist[1] = 0;
         for (int i = 0; i < N - 1; i++) {
             for (int j = 0; j < edges.size(); j++) {
-                if (dist[get<0>(edges[j])] == INT_MAX) continue;
+                // if (dist[get<0>(edges[j])] == 1000000000) continue;
                 dist[get<1>(edges[j])] = min(dist[get<1>(edges[j])], dist[get<0>(edges[j])] + get<2>(edges[j]));
             }
         }
 
         bool can = false;
         for (int j = 0; j < edges.size(); j++) {
-            if (dist[get<0>(edges[j])] == INT_MAX) continue;
+            // if (dist[get<0>(edges[j])] == 1000000000) continue;
             if (dist[get<1>(edges[j])] > dist[get<0>(edges[j])] + get<2>(edges[j])) {
                 can = true;
                 break;
