@@ -1,36 +1,22 @@
-import heapq
-
-def spell_to_num(spell):
-    degree = 0
-    result = 0
-    for c in reversed(spell):
-        result += pow(26, degree) * (ord(c) - ord('a') + 1)
-        degree += 1
-    return result
-
-def num_to_spell(num):
-    spell = []
-    while num > 0:
-        num -= 1                     # 1-based → 0-based 조정
-        spell.append(chr(ord('a') + (num % 26)))
-        num //= 26
-    return ''.join(reversed(spell))
-
 def solution(n, bans):
-    count = 0
-    pq = []
     
-    bans.sort()
-    for b in bans:
-        heapq.heappush(pq, spell_to_num(b))
-        
+    def convert_to_spell(n):
+        spell_idx = []
+        while n > 0:
+            idx = (n - 1) % 26 + 1   # 1~26 범위 보장
+            spell_idx.append(idx)
+            n = (n - 1) // 26        # 0이 없는 26진법이므로 (n-1) 처리
+        string = ''.join(chr(i + 96) for i in reversed(spell_idx))
+        return string
     
-    bound = 0
-    while pq and pq[0] <= n:
-        n += 1
-        heapq.heappop(pq)
-        
-    
-        
-    return num_to_spell(n)
-    
+    og = convert_to_spell(n)
+    bans.sort(key=lambda x: (len(x), x))
+
+    for ban in bans :
+        if len(ban) < len(og) :
+            n += 1
+            og = convert_to_spell(n)
+        elif len(ban) == len(og) and ban <= og :
+            n += 1
+            og = convert_to_spell(n)
+    return convert_to_spell(n)
