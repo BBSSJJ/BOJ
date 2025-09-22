@@ -1,10 +1,10 @@
 # [level 3] 등대 - 133500 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/133500?language=python3) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/133500) 
 
 ### 성능 요약
 
-메모리: 34.9 MB, 시간: 212.01 ms
+메모리: 34.8 MB, 시간: 147.82 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 09월 22일 15:53:21
+2025년 09월 22일 19:22:57
 
 ### 문제 설명
 
