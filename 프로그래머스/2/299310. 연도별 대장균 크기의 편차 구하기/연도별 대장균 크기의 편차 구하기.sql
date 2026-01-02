@@ -1,0 +1,9 @@
+
+select s.YEAR as YEAR, ABS(s.MAX_SIZE - e.SIZE_OF_COLONY) as YEAR_DEV, e.ID as ID
+from ECOLI_DATA as e inner join (
+    select YEAR(DIFFERENTIATION_DATE) as YEAR, MAX(SIZE_OF_COLONY) as MAX_SIZE
+    from ECOLI_DATA
+    group by YEAR(DIFFERENTIATION_DATE) 
+) as s
+on YEAR(e.DIFFERENTIATION_DATE) = s.YEAR
+order by YEAR, YEAR_DEV
