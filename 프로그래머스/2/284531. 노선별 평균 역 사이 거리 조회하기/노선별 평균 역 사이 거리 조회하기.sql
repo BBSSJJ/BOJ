@@ -1,0 +1,5 @@
+select ROUTE, CONCAT(ROUND(SUM(D_BETWEEN_DIST), 1), 'km') as TOTAL_DISTANCE, CONCAT(ROUND(AVG(D_BETWEEN_DIST), 2), 'km') as AVERAGE_DISTANCE 
+from SUBWAY_DISTANCE
+group by ROUTE
+order by ROUND(SUM(D_BETWEEN_DIST), 1) desc;
+# order by 를 TOTAL_DISTANCE로 하면 km가 들어가서 틀리게 된다.
